@@ -1,0 +1,510 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>Pokémon Black & White - Gyms</title>
+
+    <style>
+      body {
+        --cmpBgColor: #507c36;
+        --cmpTextColor: #000000;
+        --cmpLinkColor: #ffffff;
+        --cmpPurposesColor: #000000;
+        --cmpBrandColor: #000000;
+        --cmpLogo: url("https://www.serebii.net/extralogo.png");
+      }
+    </style>
+
+    <link rel="shortcut icon" href="favicon.ico.png" />
+    <link
+      rel="stylesheet"
+      href="style/tablenew.css"
+      type="text/css"
+      media="screen"
+    />
+  </head>
+  <body>
+    <script type="text/javascript">
+      var viewport_meta = document.getElementById("viewport-meta");
+      var viewport_timer;
+
+      // these body*Class are reused in the lbar mobile menu
+      function bodyAddClass(className) {
+        if (document.body) document.body.classList.add(className);
+      }
+      function bodyRemoveClass(className) {
+        if (document.body)
+          document.body.className = document.body.className.replace(
+            className,
+            "",
+          );
+      }
+
+      function viewport_set() {
+        // Define our viewport meta values
+        var viewports = {
+          default: viewport_meta.getAttribute("content"),
+          mobileL: "width=device-width,initial-scale=0.75",
+          mobileM: "width=device-width,initial-scale=0.5",
+          mobileS: "width=device-width,initial-scale=0.4",
+        };
+
+        // Change the viewport value based on screen.width
+        if (screen.width < 370) {
+          viewport_meta.setAttribute("content", viewports.mobileS);
+          bodyAddClass("nav_mobileS");
+          bodyRemoveClass("nav_mobileM");
+          bodyRemoveClass("nav_mobileL");
+        } else if (screen.width < 505) {
+          viewport_meta.setAttribute("content", viewports.mobileM);
+          bodyRemoveClass("nav_mobileS");
+          bodyAddClass("nav_mobileM");
+          bodyRemoveClass("nav_mobileL");
+        } else if (screen.width < 760) {
+          viewport_meta.setAttribute("content", viewports.mobileL);
+          bodyRemoveClass("nav_mobileS");
+          bodyRemoveClass("nav_mobileM");
+          bodyAddClass("nav_mobileL");
+        } else {
+          viewport_meta.setAttribute("content", viewports.default);
+          bodyRemoveClass("nav_mobileS");
+          bodyRemoveClass("nav_mobileM");
+          bodyRemoveClass("nav_mobileL");
+        }
+      }
+
+      // Set the correct viewport value on page load
+      viewport_set();
+
+      /* attach listener to (delay) set the correct viewport after device orientation change or resize. also onload so the nav_mobile* class gets added to body AFTER <body> has loaded */
+      if (window.addEventListener) {
+        window.addEventListener("load", viewport_set);
+        window.addEventListener("resize", function () {
+          clearTimeout(viewport_timer);
+          viewport_timer = setTimeout(viewport_set, 100);
+        });
+      } else {
+        window.attachEvent("onload", viewport_set);
+        window.attachEvent("onresize", function () {
+          clearTimeout(viewport_timer);
+          viewport_timer = setTimeout(viewport_set, 100);
+        });
+      }
+    </script>
+
+    <!--
+#######################################
+###############START LBAR #############
+#######################################
+-->
+
+    <script type="text/javascript">
+      function loadMobileLbar() {
+        var tbar_lbar_open = document.getElementById("tbar_lbar_open"),
+          tbar_backdrop = document.getElementById("tbar_backdrop"),
+          lbar = document.getElementById("lbar"),
+          lbarLIs = document.querySelectorAll("#lbar_ul>li .navheader"),
+          lbarLIULs = document.querySelectorAll("#lbar_ul>li>ul");
+
+        /* lbar display/hide */
+        tbar_lbar_open.onclick = function () {
+          if (lbar.className.indexOf("show") > -1) {
+            //hide
+            lbar.className = lbar.className.replace("show", "");
+            bodyRemoveClass("nav_modal");
+          } else {
+            //show
+            lbar.classList.add("show");
+            bodyAddClass("nav_modal");
+          }
+
+          return false;
+        };
+
+        /* background clicked when bar shown */
+        tbar_backdrop.onclick = function () {
+          // if the backdrop is clicked, hide menus
+          lbar.className = lbar.className.replace("show", "");
+          rbar.className = rbar.className.replace("show", "");
+          bodyRemoveClass("nav_modal");
+          return false;
+        };
+
+        /* handle expand/collapse sub-menus in lbar by attaching click events */
+        for (i = 0; i < lbarLIs.length; i++) {
+          lbarLIs[i].onclick = function (i) {
+            var elem = this.parentNode.getElementsByTagName("UL")[0];
+            var elemDisp = elem.className.indexOf("show") === -1;
+
+            // hide all ul, then open one if clicked
+            for (i2 = 0; i2 < lbarLIULs.length; i2++) {
+              lbarLIULs[i2].className = lbarLIULs[i2].className.replace(
+                "show",
+                "",
+              );
+            }
+
+            if (elemDisp) {
+              elem.classList.add("show");
+            }
+
+            return false;
+          };
+        }
+      }
+      function loadMobileRbar() {
+        var tbar_rbar_open = document.getElementById("tbar_rbar_open"),
+          rbar = document.getElementById("rbar");
+
+        /* rbar display/hide */
+        tbar_rbar_open.onclick = function () {
+          if (rbar.className.indexOf("show") > -1) {
+            //hide
+            rbar.className = rbar.className.replace("show", "");
+            bodyRemoveClass("nav_modal");
+          } else {
+            //show
+            rbar.classList.add("show");
+            bodyAddClass("nav_modal");
+          }
+
+          return false;
+        };
+      }
+
+      loadMobileLbar();
+
+      /* attach listener to for rbar events AFTER page loads (because #rbar hasn't loaded at this point in page ) */
+      if (window.addEventListener) {
+        window.addEventListener("load", loadMobileRbar);
+      } else {
+        window.attachEvent("onload", loadMobileRbar);
+      }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-1").load("trainer-card-gym-1.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-2").load("trainer-card-gym-2.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-3").load("trainer-card-gym-3.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-4").load("trainer-card-gym-4.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-5").load("trainer-card-gym-5.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-6").load("trainer-card-gym-6.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-7").load("trainer-card-gym-7.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-8").load("trainer-card-gym-8.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-elite").load("trainer-card-gym-9-elite.html");
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#gym-champ").load("trainer-card-gym-10-champ.html");
+      });
+    </script>
+
+    <div id="wrapper">
+      <img src="Banner.jpg" alt="Banner" style="width: 100%; height: auto" />
+      <div id="content">
+        <main>
+          <table class="tab" align="center">
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Gym #1 - Striaton City Gym</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Striaton City<br />
+                  <b>Gym Leader</b>: Danny and Mary <br />
+                  <b>Specialty</b>: Dark-type<br />
+                  <b>Reward</b>: Trio Badge, TM83, Can use HM01 - Cut
+                </p>
+                <p>
+                  <b>Puzzle</b>:<br />The puzzle within Striaton City tests your
+                  knowledge of the Pokémon type compatibility. You'll get given
+                  a type and you'll have to go and stand on the tile on the
+                  floor that represents the type that is super effective on the
+                  given type. Once you have answered each question correctly,
+                  you'll go through to the end of the gym and battle the gym
+                  leader. The Gym Leader you face in this gym is dependant
+                  solely on the starter you choose. If you choose Snivy, then
+                  you'll get the Gym Leader Chili. If you choose Tepig, then
+                  you'll face Cress and if you choose Oshawott, you'll face up
+                  against Cilan
+                </p>
+                <div id="gym-1"></div>
+              </td>
+
+              <td class="picturetd" valign="top"><img src="gym/gym1.png" /></td>
+            </tr>
+
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Gym #2 - Nacrene City Gym</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Nacrene City<br />
+                  <b>Gym Leader</b>: Danny and Mary <br />
+                  <b>Specialty</b>: Dark-type<br />
+                  <b>Reward</b>: Badge, TM67
+                </p>
+
+                <p>
+                  <b>Puzzle</b>:<br />
+                  The puzzle within Nacrene City tests your general knowledge.
+                  You'll get given simple questions that are easy to answer such
+                  as; "What's is something that you eat, is warmed in a pan and
+                  is delicious?". Once you have answered each question
+                  correctly, you'll go through to the end of the gym and battle
+                  Lenora.
+                </p>
+                <div id="gym-2"></div>
+              </td>
+              <td class="picturetd" valign="top"><img src="gym/gym2.png" /></td>
+            </tr>
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Gym #3 - Castelia City Gym</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Castelia City<br />
+                  <b>Gym Leader</b>: Burgh<br />
+                  <b>Specialty</b>: Bug-type<br />
+                  <b>Reward</b>: Beetle Badge, TM76
+                </p>
+                <p>
+                  <b>Puzzle</b>:<br />
+                  The puzzle within Castelia City is a simple bug-esque puzzle
+                  featuring honey. However, you can only get into the gym after
+                  you have followed Burgh to the Harbor of Castelia City to
+                  check and discuss Team Plasma and then fight them off. The
+                  puzzle here is to get through the honey goo to access switches
+                  to create a path.
+                </p>
+                <div id="gym-3"></div>
+              </td>
+
+              <td class="picturetd" valign="top"><img src="gym/gym3.png" /></td>
+            </tr>
+
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Gym #4 - Nimbasa City Gym</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Nimbasa City<br />
+                  <b>Gym Leader</b>: Elesa<br />
+                  <b>Specialty</b>: Electric-type<br />
+                  <b>Reward</b>: Bolt Badge, TM72
+                </p>
+
+                <p>
+                  <b>Puzzle</b>:<br />
+                  The puzzle within Nimbasa City's gym is a rather unusual one
+                  and has you taking a ride on several roller coasters to get
+                  through to the end. You need to activate switches to change
+                  the path to the direction you require.
+                </p>
+                <div id="gym-4"></div>
+              </td>
+
+              <td class="picturetd" valign="top"><img src="gym/gym4.png" /></td>
+            </tr>
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Gym #5 - Driftveil City Gym</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Driftveil City<br />
+                  <b>Gym Leader</b>: Clay<br />
+                  <b>Specialty</b>: Ground-type<br />
+                  <b>Reward</b>: Quake Badge, TM78
+                </p>
+
+                <p>
+                  <b>Puzzle</b>:<br />
+                  After defeating Team Plasma in the Cold Storage, the Driftveil
+                  Gym is accessible. The puzzle here involves the raising and
+                  lowering of numerous lifts and crossing numerous narrow
+                  girders to get to the gym leader down the bottom. After
+                  defeating him, you wont receive the TM until you meet Clay
+                  outside Chargestone Cave
+                </p>
+                <div id="gym-5"></div>
+              </td>
+              <td class="picturetd" valign="top"><img src="gym/gym5.png" /></td>
+            </tr>
+
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Gym #6 - Mistralton City Gym</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Mistralton City<br />
+                  <b>Gym Leader</b>: Skyla<br />
+                  <b>Specialty</b>: Flying-type<br />
+                  <b>Reward</b>: Jet Badge, TM62
+                </p>
+
+                <p>
+                  <b>Puzzle</b>:<br />
+                  After following her to the Celestial Tower in Route 7 and
+                  cheering her up, Skyla will return to the gym at the back of
+                  the runway in the city. This gym is rather linear inthat it
+                  has a set path to follow using cannons that shoot you around
+                  the gym.
+                </p>
+                <div id="gym-6"></div>
+              </td>
+              <td class="picturetd" valign="top">
+                <img src="gym/gym6.png" />
+              </td>
+            </tr>
+
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Gym #7 - Icirrus City Gym</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Icirrus City<br />
+                  <b>Gym Leader</b>: Brycen <br />
+                  <b>Specialty</b>: Ice-type<br />
+                  <b>Reward</b>: Icicle Badge, TM79
+                </p>
+
+                <p>
+                  <b>Puzzle</b>:<br />
+                  Once you get to Icirrus City, the gym should be fully
+                  accessible. Like all previous Ice-type gyms, this one revolves
+                  around a puzzle where you need to traverse ice. However,
+                  unlike past ones, you'll find walls which make you spin and
+                  turn as well as jumps across gaps.
+                </p>
+                <div id="gym-7"></div>
+              </td>
+              <td class="picturetd" valign="top">
+                <img src="gym/gym7.png" />
+              </td>
+            </tr>
+
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Gym #8 - Opelucid City Gym</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Opelucid City<br />
+                  <b>Gym Leader</b>: Drayden (Black) Iris (White) <br />
+                  <b>Specialty</b>: Dragon-type<br />
+                  <b>Reward</b>: Legend Badge, TM82
+                </p>
+
+                <p>
+                  <b>Puzzle</b>:<br />
+                  After listening to the Plasma speech in Opelucid City, you
+                  will be told about the legends by Drayden and Iris. After
+                  this, one will leave and go to the gym. This gym doesn't have
+                  a puzzle but is more of a very thin maze where you have to
+                  walk around the right path to get to the Gym Leader, having
+                  you the player fall land on switches to open new pathways.
+                </p>
+                <div id="gym-8"></div>
+              </td>
+              <td class="picturetd" valign="top">
+                <img src="gym/gym8b.png" /><br />
+              </td>
+            </tr>
+
+            <tr>
+              <td class="fooleft" colspan="2">
+                <font size="3">Elite Four - Pokémon League</font>
+              </td>
+            </tr>
+            <tr>
+              <td class="foocontent" valign="top">
+                <p>
+                  <b>Location</b>: Opelucid City<br />
+                  <b>Gym Leader</b>: Drayden (Black) Iris (White) <br />
+                  <b>Specialty</b>: Dragon-type<br />
+                  <b>Reward</b>: Legend Badge, TM82
+                </p>
+
+                <p>
+                  <b>Puzzle</b>:<br />
+                  After listening to the Plasma speech in Opelucid City, you
+                  will be told about the legends by Drayden and Iris. After
+                  this, one will leave and go to the gym. This gym doesn't have
+                  a puzzle but is more of a very thin maze where you have to
+                  walk around the right path to get to the Gym Leader, having
+                  you the player fall land on switches to open new pathways.
+                </p>
+                <div id="gym-elite"></div>
+                <div id="gym-champ"></div>
+              </td>
+              <td class="picturetd" valign="top">
+                <img src="gym/gym8b.png" /><br />
+              </td>
+            </tr>
+
+            
+          </table>
+        </main>
+      </div>
+      <!-- END id="content" -->
+    </div>
+    <!-- END id="wrapper" -->
+  </body>
+</html>
